@@ -1,28 +1,23 @@
+import { PaginationDto } from '@/shared/types/pagination';
+import { StoryItem } from '@/entities/story/types';
+import { createEmptyList } from '@/shared/lib/utils';
 
-export interface StoriesData {
-  items: StoryItem[];
-}
-
-export interface StoryItem {
-  createdAt: string;
-  id: string;
-  updatedAt: string;
-  owner: any;
-  text: string;
-}
-
-export const getAllStories = async (): Promise<StoriesData> => {
+export const getAllStories = async (): Promise<PaginationDto<StoryItem>> => {
   const storiesResponse = await fetch('https://chatcore.online/api/stories');
-
-  setTimeout(() => {
-    console.log('Close timeout');
-  }, 50000);
 
   if (storiesResponse.ok) {
     return storiesResponse.json();
   }
 
-  return {
-    items: []
-  };
+  return createEmptyList();
+};
+
+export const getStory = async (id: string): Promise<StoryItem | null> => {
+  const storyResponse = await fetch(`https://chatcore.online/api/stories/${id}`);
+
+  if (storyResponse.ok) {
+    return storyResponse.json();
+  }
+
+  return null;
 };
