@@ -37,13 +37,18 @@ export default async function StoriesPage() {
           <Link key={story.id} href={`/stories/${story.id}`}>
             <Card className="h-full overflow-hidden transition-shadow hover:shadow-lg">
               <CardHeader className="pb-2">
-                <CardTitle className="line-clamp-1 text-xl">Заголовок</CardTitle>
+                <CardTitle className="line-clamp-1 text-xl">{story.title}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-1">
                 <p className="text-muted-foreground line-clamp-3 text-sm">{story.text}</p>
                 <div className="text-muted-foreground mt-2 text-xs">
                   Автор: <span className="font-medium">{story.owner.name}</span>
                 </div>
+                {story.category && (
+                  <div className="text-muted-foreground text-xs">
+                    Категория: <span className="font-medium">{story.category.name}</span>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </Link>

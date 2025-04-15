@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { StoryItem } from '@/entities/story/types';
 import { PaginationDto } from '@/shared/types/pagination';
+import { Badge } from '@/shared/components/ui/badge';
 
 export async function generateStaticParams() {
   const storiesData: PaginationDto<StoryItem> = await fetch('https://chatcore.online/api/stories').then((res) =>
@@ -33,14 +34,14 @@ export default async function StoryPage({ params }: { params: Promise<{ id: stri
       </div>
 
       <header className="space-y-3">
-        <h1 className="text-5xl leading-snug font-bold tracking-tight">Заголовок</h1>
+        <h1 className="text-5xl leading-snug font-bold tracking-tight">{story.title}</h1>
         <div className="text-muted-foreground flex flex-wrap items-center gap-3 text-sm">
           <span>
             Автор: <span className="font-medium">{story.owner.name}</span>
           </span>
           <span>·</span>
           <span>{new Date(story.createdAt).toLocaleDateString('ru-RU')}</span>
-          {/*<Badge variant="outline">{story.category}</Badge>*/}
+          {story.category && <Badge variant="outline">{story.category.name}</Badge>}
         </div>
       </header>
 
