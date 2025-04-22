@@ -5,6 +5,8 @@ import { StoryItem } from '@/entities/story/types';
 import { PaginationDto } from '@/shared/types/pagination';
 import { Badge } from '@/shared/components/ui/badge';
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const storiesData: PaginationDto<StoryItem> = await fetch('https://chatcore.online/api/stories').then((res) =>
     res.json()
