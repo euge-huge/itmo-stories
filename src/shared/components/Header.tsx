@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { Button } from '@/shared/components/ui/button';
 import { cn } from '@/shared/lib/utils';
+import Profile from '@/shared/components/Profile';
 
 const navLinks = [
   { label: 'О проекте', href: '/about' },
@@ -30,12 +30,7 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Кнопка входа / профиль */}
-        <div>
-          <Button variant="outline" size="sm">
-            <Link href="/login">Войти</Link>
-          </Button>
-        </div>
+        <Profile />
       </div>
     </header>
   );

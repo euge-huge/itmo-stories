@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 
 import Header from '@/shared/components/Header';
+import { AuthProvider } from '@/app/AuthProvider';
 
 import './globals.css';
 
@@ -28,9 +29,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Header />
+        <AuthProvider>
+          <Header />
 
-        {children}
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

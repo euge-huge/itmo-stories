@@ -2,31 +2,43 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import ky from 'ky';
 
 import { Input } from '@/shared/components/ui/input';
 import { Button } from '@/shared/components/ui/button';
 
 const RegisterForm = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Простая валидация
-    if (!email || !password || !confirmPassword) {
+    if (!name || !email || !password || !confirmPassword) {
       setError('Пожалуйста, заполните все поля.');
       return;
     }
+
     if (password !== confirmPassword) {
       setError('Пароли не совпадают.');
       return;
     }
 
-    // Тут можно добавить логику для регистрации через API
-    console.log('Регистрация:', { email, password });
+    try {
+      await ky.post('http://localhost:3000/api/auth/register', {
+        json: {
+          name,
+          email,
+          password,
+        },
+      });
+    } catch {
+      setError('Ошибка регистрации');
+    }
+
     setError(null); // сбрасываем ошибку
   };
 
@@ -34,6 +46,21 @@ const RegisterForm = () => {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Заголовок формы */}
       <h1 className="text-center text-3xl font-extrabold text-gray-800">Регистрация</h1>
+
+      {/* Поле для ввода имени */}
+      <div>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          Имя
+        </label>
+        <Input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Введите ваше имя"
+          className="mt-2"
+        />
+      </div>
 
       {/* Поле для ввода email */}
       <div>

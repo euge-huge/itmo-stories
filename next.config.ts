@@ -1,7 +1,15 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
+/** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
-  /* config options here */
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://chatcore.online/api/:path*', // куда на самом деле отправлять
+      },
+    ];
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
