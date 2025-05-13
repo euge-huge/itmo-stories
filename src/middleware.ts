@@ -19,10 +19,16 @@ export async function middleware(request: NextRequest) {
   if (isAuth) {
     return NextResponse.next();
   } else {
-    return NextResponse.redirect(new URL('/login', request.url));
+    if (request.url.includes('/api')) {
+      return NextResponse.json({
+        message: 'Not Authorized',
+      });
+    } else {
+      return NextResponse.redirect(new URL('/login', request.url));
+    }
   }
 }
 
 export const config = {
-  matcher: '/stories/create',
+  matcher: ['/stories/create', '/api/stories/count'],
 };
