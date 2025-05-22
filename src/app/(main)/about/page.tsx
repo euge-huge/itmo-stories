@@ -1,6 +1,13 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
 import { Button } from '@/shared/components/ui/button';
+
+export const metadata: Metadata = {
+  title: 'StoryHub',
+  description:
+    'Мы верим, что у каждого человека есть история, достойная быть услышанной. Наш проект создан для того, чтобы  объединить авторов, читателей и просто любопытных людей, которые хотят вдохновения и эмоций.',
+};
 
 export default function AboutPage() {
   return (

@@ -4,8 +4,32 @@ import Link from 'next/link';
 import { StoryItem } from '@/entities/story/types';
 import { PaginationDto } from '@/shared/types/pagination';
 import { Badge } from '@/shared/components/ui/badge';
+import { Metadata } from 'next';
 
 export const revalidate = 60;
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+
+  const storiesResponse = await fetch(`https://chatcore.online/api/stories/` + id);
+  const story: StoryItem = await storiesResponse.json();
+
+  return {
+    title: story.title,
+    description: story.text.slice(0, 50),
+    openGraph: {
+      title: story.title,
+      description: story.text.slice(0, 50),
+      images: [
+        {
+          url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc9APxkj0xClmrU3PpMZglHQkx446nQPG6lA&s', // Must be an absolute URL
+          width: 800,
+          height: 600,
+        },
+      ],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const storiesData: PaginationDto<StoryItem> = await fetch('https://chatcore.online/api/stories').then((res) =>
